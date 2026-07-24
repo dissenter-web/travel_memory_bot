@@ -1,0 +1,9 @@
+services:
+  travel-memory-bot:
+    build: .
+    container_name: travel-memory-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ${HOST_DATA_DIR:-./data}:/app/data
