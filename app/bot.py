@@ -125,17 +125,13 @@ class TravelMemoryBot:
         self,
         context: ContextTypes.DEFAULT_TYPE,
     ) -> None:
+        
         try:
             memory = self.service.choose_next()
-        except RuntimeError as exc:
-            if str(exc) == "All memories have already been sent":
-                await self._send_text_to_everyone(
-                    context,
-                    "❤️ Мы посмотрели все наши воспоминания. Пора создавать новые.",
-                )
-            else:
-                logger.exception("Unable to choose the next memory")
+        except RuntimeError:
+            logger.exception("Unable to choose the next memory")
             return
+
 
         phrase = self.phrase_repository.get_random_phrase()
         caption = format_memory_caption(memory, phrase)
